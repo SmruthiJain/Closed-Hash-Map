@@ -1,0 +1,134 @@
+/*Smruthi Jain*/
+/*Implementation of Closed Hashing (Integer) (mod 10)*/
+/*Don't give -1 as a key*/
+
+#include <stdio.h>
+#include <stdlib.h>
+int key, indx, queue[10], start, end, filled[10]={-1};
+
+/*Function to print the Hash Table*/
+int print()  {
+	int i;
+	printf("\t---HashMap---\n\n");
+	for(i=0; i<10; i++)
+	{
+		if (filled[i]==1)
+			printf("%d\t",queue[i]);
+		else 
+			printf("*\t");
+	}
+	printf("\n\n");
+	return 0;
+}
+
+/* Function to add a key into the Closed Hash Table*/
+int add()  {
+	
+	indx= key % 10;
+
+	start=indx;
+	end=-1;
+	while(start != end )
+	{
+		if (filled[indx] != 1)  
+		{
+			queue[indx]=key;
+			filled[indx]=1;
+			break;
+		}
+
+		else  {
+			indx=(indx+1) % 10;
+		}
+		end=indx;	
+	}
+
+	if (start == end)
+        printf("\nHashMap full\n\n");
+
+    print();
+
+return 0;	
+}
+
+/*Function to delete key from Closed Hash table*/
+int delet()  {
+	
+	indx=key%10;
+	start=indx;
+	end=-1;
+	while(start != end)
+	{
+		if(queue[indx] == key)
+		{
+			printf("key %d deleted from position %d\n",key,indx+1); //position=index+1
+			filled[indx]=-1;
+			queue[indx]=-1;
+			print();
+			break;
+		}
+		else 
+			indx=(indx+1) % 10;
+		end=indx;
+	}
+	if(start == end)
+		printf("key to be deleted is not found\n\n");
+
+	return 0;
+}
+
+/*Function to find the key from Closed Hash Table*/
+int find()  {
+
+	indx=key%10;
+	start=indx;
+	end=-1;
+	while(start != end)
+	{
+		if(queue[indx] == key)
+		{
+			printf("key %d found at position %d\n\n",key,indx+1);    //position=indx+1  
+			break;
+		}
+		else 
+			indx=(indx+1) % 10;
+		end=indx;
+ 
+	}
+	if(start == end)
+		printf("key not found\n\n");
+	return 0;
+}
+
+int main(int argc, char const *argv[])
+{
+	int option; 
+	
+	while(1)  {
+		printf("Choose an option: 1.Add  2.Delete  3.Find  4.Exit\n");
+		scanf("%d",&option);
+		switch(option)
+		{
+			case 1: printf("Enter the key to be added\n");
+			scanf("%d",&key); 
+			add();
+			break;
+
+			case 2: printf("Enter the key to be deleted\n");
+			print();
+			scanf("%d",&key); 
+			delet();
+			break;
+
+			case 3: printf("Enter the key to be found\n");
+			scanf("%d",&key);
+			find();
+			break;
+
+			case 4: exit(0);
+
+			default: printf("invalid option\n");
+		}
+	}
+	return 0;
+}
